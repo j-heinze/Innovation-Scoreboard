@@ -18,7 +18,7 @@ maininfo = dbc.Card(
                 "text-align": "left"
             },
             columns=[{"name": i, "id": i}
-                     for i in ["BvD ID Nummer", "Globale KM - Name", "Stand", "Gesellschafter - NACE,Textbeschreibung"]],
+                     for i in ["BvD ID Nummer", "Globale KM - Name", "Stand", "Gesellschafter - NACE,Textbeschreibung", "Eigenkapitalquote (%)"]],
             sort_action="none",
             sort_mode="single",
         ),

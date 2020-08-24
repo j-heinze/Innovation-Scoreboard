@@ -42,16 +42,40 @@ server = app.server
 
 app.layout = html.Div([
     html.Div([
-        html.H2("Innovation Scoreboard", style={"width": "60%"}),
+        html.Div([html.H2("Innovation Scoreboard", style={"padding-right": "2rem"}),
+                  dbc.Button("Datensatz wechseln",
+                             id="mainopen", color="info"),
+                  dbc.Modal(
+            [
+                dbc.ModalHeader("Datensatzauswahl"),
+                dbc.ModalBody(html.Div([html.P("In diesem Projekt wurden zwei Datensätze untersucht:"),
+                                        dbc.Card(dcc.Markdown('''**Personalisierte Medizin**  
+                                        Patienten unter Einbeziehung individueller Gegebenheiten über funktionale Krankheitsdiagnose hinaus behandeln z.B. individuell optimale Medikamentenkombination zusammenstellen  
+                                        Zwei Hauptbereiche  
+                                        - Stoffschutz von Arzneimitteln  
+                                        - Patentierungsmöglichkeiten in der Diagnostik'''), body=True),
+                                        dbc.Card(dcc.Markdown('''**UV-LED**  
+                                        UV-LED beschreibt eine Technologie mit einem breitem Anwendungsspektrum: Sie findet Anwendung im medizinischen, industriellen und persönlichen Gebrauch und zeichnet sich durch eine kontinuierliche Aktivität bei Patentierungen aus. Ein heute aktueller Anwendungsfall ist die Anwendung zur Desinfektion gegen SARS-CoV-2'''), body=True),
+                                        html.H6("Datensatz: "),
+                                        dcc.Dropdown(
+                    id='Datensatz',
+                    options=[{'label': "Personalisierte Medizin", 'value': "Medizin", "title": "Patienten unter Einbeziehung individueller Gegebenheiten über funktionale Krankheitsdiagnose hinaus behandeln"}, {
+                        'label': "UV-LED", 'value': "UVLED", "title": "Anwendung im medizinischen, industriellen und persönlichen Gebrauch"}],
+                    value='UVLED',
+                    style={'width': '100%', "padding": "0 0 0 2rem"},
+                    clearable=False,
+                ), ], style={"display": "block", "align-items": "center"}),),
+                dbc.ModalFooter(
+                    dbc.Button("Auswahl bestätigen.",
+                               id="close-lg", color="info", className="ml-auto")
+                ),
+            ],
+            is_open=True,
+            id="modalmain",
+            size="lg",
+            centered=True,
+        )], style={"display": "flex", "align-items": "center"}),
         html.Div([
-            html.Div([html.H6("Datensatz: "),
-                      dcc.Dropdown(
-                id='Datensatz',
-                options=[{'label': i, 'value': i}
-                         for i in ["Medizin", "UVLED"]],
-                value='UVLED',
-                style={'width': '40%', "padding": "0 0 0 2rem"}
-            ), ], style={"display": "flex", "align-items": "center"}),
             html.P(
                 "Folgend das Filterkriterium auswählen und dimensionieren, um das XY-Diagramm zu filtern."),
             html.Div([
@@ -142,6 +166,18 @@ app.layout = html.Div([
         )
 
     ], style={"width": "100%", "padding-left": "1rem", "display": "block", "justify-content": "center"})], style={"width": "100%", "justify-content": "center"})
+
+
+@ app.callback(
+    Output("modalmain", "is_open"),
+    [Input("mainopen", "n_clicks"), Input("close-lg", "n_clicks")],
+    [State("modalmain", "is_open")],
+
+)
+def toggle_modal(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
 
 
 @ app.callback(
@@ -272,8 +308,7 @@ def update_Details_Innovationsniveau(clickData, Datensatz):
         DataSelect = Dataset[Datensatz]["dfnumericnorm"][Dataset[Datensatz]["dfnumericnorm"]["company"]
                                                          == clickData]
         InnovationsniveauDF = DataSelect[["Anzahl Patente", "Zitationsrate", "Größte Zitationszahl",
-                                          "Zitierhäufigkeit", "Patentzitationsindex", "hIndex", "Selbstzitationszahl"]]
-
+                                          "Zitierhäufigkeit", "Patentzitationsindex", "hIndex", "Selbstzitationszahl", "Frühe Zitationen"]]
         fig = go.Figure()
         fig_main = go.Figure()
 
@@ -296,9 +331,9 @@ def update_Details_Innovationsniveau(clickData, Datensatz):
 
         fig.add_trace(go.Bar(
             x=["Anzahl Patente", "Zitationsrate", "Größte Zitationszahl",
-                "Zitierhäufigkeit", "Patentzitationsindex", "hIndex", "Selbstzitationszahl"],
+                "Zitierhäufigkeit", "Patentzitationsindex", "hIndex", "Selbstzitationszahl", "Frühe Zitationen"],
             y=Dataset[Datensatz]["meandata"][["Anzahl Patente", "Zitationsrate", "Größte Zitationszahl",
-                                              "Zitierhäufigkeit", "Patentzitationsindex", "hIndex", "Selbstzitationszahl"]].values,
+                                              "Zitierhäufigkeit", "Patentzitationsindex", "hIndex", "Selbstzitationszahl", "Frühe Zitationen"]].values,
             name="Durchschnitt im Datensatz",
             marker_color='gainsboro',
 
@@ -718,12 +753,9 @@ def display_hover_data(clickData, Datensatz):
                [Input('clickData', 'children'), Input("Datensatz", "value")])
 def update_infotable(clickData, Datensatz):
     if clickData:
-        print(clickData)
         if clickData in Dataset[Datensatz]["Finanzdaten"].index:
             data = Dataset[Datensatz]["Finanzdaten"][["BvD ID Nummer", "Stand", "Globale KM - Name", "Gesellschafter - NACE,Textbeschreibung"]].loc[[
                 clickData]]
-            print(data)
-            print(data.to_dict('records'))
             return data.to_dict('records')
         else:
             return [{"BvD ID Nummer": "Keine Daten vorhanden", "Letztes verf. Jahr": "Keine Daten vorhanden", "Globale KM - Name": "Keine Daten vorhanden", "Gesellschafter - NACE,Textbeschreibung": "Keine Daten vorhanden"}]
@@ -735,7 +767,6 @@ def update_infotable(clickData, Datensatz):
                [Input('clickData', 'children'), Input("Datensatz", "value")])
 def update_infotable(clickData, Datensatz):
     if clickData:
-        print(clickData)
         if clickData in Dataset[Datensatz]["Finanzdaten"].index:
             data = Dataset[Datensatz]["Finanzdaten"][["Eigenkapital tsd. EUR", "Fremd- zu Eigenkapital (%)", "Eigenkapitalquote (%)", "ROE vor Steuern (%)", "ROCE vor Steuern (%)", "Langfristige Verbindlichkeiten tsd. EUR", "EBITDA tsd. EUR",  "Cashflow tsd. Euro"]].loc[[
                 clickData]]
@@ -750,7 +781,6 @@ def update_infotable(clickData, Datensatz):
                [Input('clickData', 'children'), Input("Datensatz", "value")])
 def update_infotable(clickData, Datensatz):
     if clickData:
-        print(clickData)
         if clickData in Dataset[Datensatz]["Finanzdaten"].index:
             data = Dataset[Datensatz]["Finanzdaten"][["Stand", "Anzahl Mitarbeiter", "Betriebsertrag/Jahr tsd. Euro", "Gewinn/Verlust vor Steuern tsd. EUR", "Gewinn pro Mitarbeiter tsd. EUR", "F&E Ausgaben tsd. EUR"]].loc[[
                 clickData]]

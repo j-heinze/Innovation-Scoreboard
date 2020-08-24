@@ -1,5 +1,6 @@
 import dash
 import dash_table
+from dash_table.Format import Format, Scheme
 import dash_bootstrap_components as dbc
 import dash_html_components as html
 
@@ -18,8 +19,9 @@ finance = dbc.Card(
                     'whiteSpace': 'normal',
                     "text-align": "left"
                 },
-                columns=[{"name": i, "id": i}
-                         for i in ["Stand", "Anzahl Mitarbeiter", "Betriebsertrag/Jahr tsd. Euro", "Gewinn/Verlust vor Steuern tsd. EUR", "Gewinn pro Mitarbeiter tsd. EUR", "F&E Ausgaben tsd. EUR"]],
+                columns=[{"name": "Stand", "id": "Stand"}, {"name": "Anzahl Mitarbeiter", "id": "Anzahl Mitarbeiter"},
+                         {"name": "Betriebsertrag/Jahr tsd. Euro", "id": "Betriebsertrag/Jahr tsd. Euro", "type": "numeric", "format": Format(precision=2, scheme=Scheme.fixed)}, {
+                             "name": "Gewinn/Verlust vor Steuern tsd. EUR", "id": "Gewinn/Verlust vor Steuern tsd. EUR", "type": "numeric", "format": Format(precision=2, scheme=Scheme.fixed)}, {"name": "F&E Ausgaben tsd. EUR", "id": "F&E Ausgaben tsd. EUR", "type": "numeric", "format": Format(precision=2, scheme=Scheme.fixed)}],
                 sort_action="none",
                 sort_mode="single",
             )
@@ -36,7 +38,7 @@ finance = dbc.Card(
                     "text-align": "left"
                 },
                 columns=[{"name": i, "id": i}
-                         for i in ["Eigenkapital tsd. EUR", "Fremd- zu Eigenkapital (%)", "Eigenkapitalquote (%)", "ROE vor Steuern (%)", "ROCE vor Steuern (%)", "Langfristige Verbindlichkeiten tsd. EUR", "EBITDA tsd. EUR",  "Cashflow tsd. Euro"]],
+                         for i in ["Eigenkapital tsd. EUR", "Eigenkapitalquote (%)", "ROE vor Steuern (%)" "ROA vor Steuern (%)", "ROCE vor Steuern (%)", "ROS nach Steuern(%)", "Langfristige Verbindlichkeiten tsd. EUR", "EBITDA tsd. EUR"]],
                 sort_action="none",
                 sort_mode="single",
             )

@@ -1,0 +1,25 @@
+{
+  "_comment": "Finanzdaten",
+  "columns": [
+    "ROS nach Steuern(%)",
+    "ROA vor Steuern (%)",
+    "Inactive",
+    "Stand",
+    "Anzahl Mitarbeiter",
+    "Betriebsertrag/Jahr tsd. Euro",
+    "Gewinn/Verlust vor Steuern tsd. EUR",
+    "Cashflow tsd. Euro",
+    "Eigenkapital tsd. EUR",
+    "ROE vor Steuern (%)",
+    "ROCE vor Steuern (%)",
+    "Langfristige Verbindlichkeiten tsd. EUR",
+    "F&E Ausgaben tsd. EUR",
+    "EBITDA tsd. EUR",
+    "Gewinn pro Mitarbeiter tsd. EUR",
+    "Fremd- zu Eigenkapital (%)",
+    "Eigenkapitalquote (%)",
+    "Globale KM - Name",
+    "Gesellschafter - NACE,Textbeschreibung",
+    "BvD ID Nummer"
+  ]
+}
