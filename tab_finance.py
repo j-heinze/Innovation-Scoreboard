@@ -20,13 +20,13 @@ finance = dbc.Card(
                     "text-align": "left"
                 },
                 columns=[{"name": "Stand", "id": "Stand"}, {"name": "Anzahl Mitarbeiter", "id": "Anzahl Mitarbeiter"},
-                         {"name": "Betriebsertrag/Jahr tsd. Euro", "id": "Betriebsertrag/Jahr tsd. Euro", "type": "numeric", "format": Format(precision=2, scheme=Scheme.fixed)}, {
+                         {"name": "Umsatz/Jahr tsd. Euro", "id": "Umsatz/Jahr tsd. Euro", "type": "numeric", "format": Format(precision=2, scheme=Scheme.fixed)}, {
                              "name": "Gewinn/Verlust vor Steuern tsd. EUR", "id": "Gewinn/Verlust vor Steuern tsd. EUR", "type": "numeric", "format": Format(precision=2, scheme=Scheme.fixed)}, {"name": "F&E Ausgaben tsd. EUR", "id": "F&E Ausgaben tsd. EUR", "type": "numeric", "format": Format(precision=2, scheme=Scheme.fixed)}],
                 sort_action="none",
                 sort_mode="single",
             )
             ], style={"width": "100%", "padding-left": "0.5rem", "padding-right": "0.5rem", "padding-bottom": "1rem"}),
-            html.H4("Eigenkapitalinformation", style={"width": "100%"}),
+            html.H4("Finanzindikatoren", style={"width": "100%"}),
             html.Div(
             [dash_table.DataTable(
                 id='finance-table-eigenkapital',
@@ -38,7 +38,7 @@ finance = dbc.Card(
                     "text-align": "left"
                 },
                 columns=[{"name": i, "id": i}
-                         for i in ["Eigenkapital tsd. EUR", "Eigenkapitalquote (%)", "ROE vor Steuern (%)" "ROA vor Steuern (%)", "ROCE vor Steuern (%)", "ROS nach Steuern(%)", "Langfristige Verbindlichkeiten tsd. EUR", "EBITDA tsd. EUR"]],
+                         for i in ["Fremd- zu Eigenkapital (%)", "Eigenkapitalquote (%)", "ROA vor Steuern (%)", "ROE vor Steuern (%)", "ROCE vor Steuern (%)", "ROS nach Steuern(%)", "EBITDA tsd. EUR"]],
                 sort_action="none",
                 sort_mode="single",
             )

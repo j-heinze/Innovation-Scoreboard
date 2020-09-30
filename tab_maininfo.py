@@ -7,7 +7,7 @@ import dash_core_components as dcc
 
 maininfo = dbc.Card(
     dbc.CardBody(
-        [dash_table.DataTable(
+        [html.H5("Übersicht"), dash_table.DataTable(
             id='maininfo-table',
             style_cell={
                 'height': 'auto',
@@ -18,10 +18,10 @@ maininfo = dbc.Card(
                 "text-align": "left"
             },
             columns=[{"name": i, "id": i}
-                     for i in ["BvD ID Nummer", "Globale KM - Name", "Stand", "Gesellschafter - NACE,Textbeschreibung", "Eigenkapitalquote (%)"]],
+                     for i in ["BvD ID Nummer", "Globale KM - Name", "Stand", "Anzahl Mitarbeiter", "Eigenkapitalquote (%)"]],
             sort_action="none",
             sort_mode="single",
-        ),
+        ), html.H5("Innovation Scoreboard"), html.P("Detaillierte Beschreibungen der einzelnen Indikatoren finden sich unter dem Tab Patentindikatoren. "),
             html.Div([
                 html.Div(
                     [dcc.Graph(id='Innovationsniveau_main', style={"height": "24vh"})

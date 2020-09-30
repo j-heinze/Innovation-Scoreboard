@@ -22,7 +22,50 @@ analytics = dbc.Card(
 
                 html.Div(
                     [dcc.Graph(id='Innovationsniveau', style={"height": "30vh"}
-                               )], className="pretty_container", style={'width': '48%', 'display': 'inline-block'}
+                               ),
+                     html.Div(
+                        [
+                            dbc.Button("Information",
+                                       id="open-character-niveau"),
+                            dbc.Modal(
+                                [
+                                    dbc.ModalHeader("Innovationsniveau"),
+                                    dbc.ModalBody(dcc.Markdown('''
+                    *Level auf dem ein Unternehmen innoviert*  
+                    
+                    **Anzahl Patente**  
+                    Anzahl der erteilten Patente im Verhältnis zum Durchschnitt des Datensatzes  
+                    
+                    **Zitationsrate (Zr)**  
+                    Anteil zitierter Patente an Patentanmeldungen im Technologiefeld (PAiF) 
+                    
+                    **Größte Zitationszahl**  
+                    Maximale Anzahl der Zitationen von PAiF  
+                    
+                    **Zitierhäufigkeit**  
+                    Durchschnittliche Zitierhäufigkeit von PAiF  
+                    
+                    **Patentzitationsindex**  
+                    Gesamtzahl der Referenzen auf ein Patent geteilt durch andere Patente im Verhältnis zu den Jahren, die ein Patent veröffentlicht ist.  
+                    
+                    **h-Index**  
+                    Messung der Produktivität und Wirkung der veröffentlichten Arbeit eines Wissenschaftlers. Je höher der h-Index, desto bedeutender ist ein Wissenschaftler für sein Technologiefeld.  
+                    
+                    **Selbstzitationszahl**  
+                    Anzahl der Zitationen durch eigene Patente an der Zitationsrate (Zr)
+                    ''')),
+                                    dbc.ModalFooter(
+                                        dbc.Button("Close", id="close-character-niveau",
+                                                   className="ml-auto")
+                                    ),
+                                ],
+                                id="modal-character-niveau",
+                                centered=True,
+                                size="lg",
+                                scrollable=True
+                            ),
+                        ]
+                    )], className="pretty_container", style={'width': '48%', 'display': 'inline-block'}
                 ),
                 html.Div(
                     [dcc.Graph(id='CPC-Pie-Chart', style={"height": "30vh"}
@@ -33,7 +76,55 @@ analytics = dbc.Card(
 
                 html.Div(
                     [dcc.Graph(id='Innovationsfähigkeit', style={"height": "30vh"}
-                               )], className="pretty_container", style={'width': '48%', 'display': 'inline-block'}
+                               ),
+                     html.Div(
+                        [
+                            dbc.Button("Information",
+                                       id="open-character-fhigkeit"),
+                            dbc.Modal(
+                                [
+                                    dbc.ModalHeader("Innovationsfähigkeit"),
+                                    dbc.ModalBody(dcc.Markdown('''
+                    *Möglichkeit Innovationen hervorzubringen*  
+
+                    **Individuelle Erfinder**  
+                    Anzahl der individuellen Erfinder eines Patents  
+
+                    **Individuelle Erfinder/Patente**  
+                    Anzahl der individuellen Erfinder pro Patent  
+
+                    **Intensität der Zusammenarbeit**  
+                    Anzahl von Joint Ventures oder strategischen Allianzen  
+
+                    **TimeDelta App/Pub**
+                    Zeitliche Differenz der Anmeldung und Erteilung eines Patents pro Unternehmen
+                    
+                    **Durchschnittliche Teamgröße**  
+                    Durchschnittliche Anzahl der Erfinder pro Patent  
+
+                    **Schlüsselerfinder (Price Law)**  
+                    Anzahl der Schlüsselerfinder eines Unternehmens im Technologiefeld.  Definition Schlüsselerfinder in Anlehnung an  
+
+                    *Price Law*: Wurzel der Anzahl der individuellen Erfinder = Anzahl der Schlüsselerfinder  
+
+                    **Schlüsselerfinder (min. 3 Patente)**  
+                    Anzahl der Schlüsselerfinder eines Unternehmens im Technologiefeld.  Definition Schlüsselerfinder: min. 3 Patente müssen gehalten werden  
+                    
+                    **Anzahl Kooperationen**  
+                    Anteil der Patente, die aus Kooperationen hervorgegangen sind im Verhältnis zur Gesamtzahl der Patente eines Unternehmens.
+                    ''')),
+                                    dbc.ModalFooter(
+                                        dbc.Button("Close", id="close-character-fhigkeit",
+                                                   className="ml-auto")
+                                    ),
+                                ],
+                                id="modal-character-fhigkeit",
+                                centered=True,
+                                size="lg",
+                                scrollable=True
+                            ),
+                        ]
+                    )], className="pretty_container", style={'width': '48%', 'display': 'inline-block'}
                 ),
                 html.Div(
                     [dcc.Graph(id='Innovationscharakter', style={"height": "30vh"}
@@ -44,7 +135,7 @@ analytics = dbc.Card(
                                 [
                                     dbc.ModalHeader("Innovationscharakter"),
                                     dbc.ModalBody(dcc.Markdown('''
-                    Qualitative Eigenschaften von Unternehmensinnovationen
+                    *Qualitative Eigenschaften von Unternehmensinnovationen*
 
                     **Technologische Breite**
                     Anzahl verschiedener CPC-Codes mit dem gleichen Assignee. (normiert über den Datensatz)
@@ -88,8 +179,45 @@ analytics = dbc.Card(
             ], style={"display": "flex"}),
 
             html.Div([html.Div(
-                [dcc.Graph(id='Innovationscharakter - Claims', style={"height": "30vh"})
-                 ], className="pretty_container", style={'width': '48%', 'display': 'inline-block'}),
+                [dcc.Graph(id='Innovationscharakter - Claims', style={"height": "30vh"}),
+                 html.Div(
+                    [
+                        dbc.Button("Information", id="open-character-claims"),
+                        dbc.Modal(
+                            [
+                                dbc.ModalHeader(
+                                    "Innovationscharakter - Claims"),
+                                dbc.ModalBody(dcc.Markdown('''
+                    *Qualitative Eigenschaften von Unternehmensinnovationen*   
+
+                    Für die Value Indizes werden keine Durchschnittswerte dargestellt, da diese Werte in Relation zu semantisch ähnlichen Patenten berechnet werden und die Durchschnittswerte daher nicht interpretiert werden können.  
+
+                    **1st Claim Lenght & Claim Length Value Index**  
+                    Die Anzahl der Worte im ersten Claim, gibt an wie breit das erfinderische Konzept ist. Über alle Patente wird der Durchschnitt berechnet, um Rückschlüsse zu finden, ob ein Unternehmen breite erfinderische Konzepte patentieren lässt und damit in den Bereich der Grundlagenforschung kommt, oder ob der erste Claim eher komplexer ist. Für den Value Index werden pro Patent die Top 10 semantisch ähnlichen Patente zum Vergleich herangezogen und das Patent ins Verhältnis gesetzt, um semantische Fehler zu verringern.  
+
+                    **Claim Complexity & Claim Complexity Value Index**   
+                    Anzahl der abhängigen Claims^2/ Anzahl der unabhängigen Claims  
+
+                    **Claim Amount & Claim Amount Value Index**   
+                    Anzahl der Claims & Anzahl der Claims im Verhältnis des Durchschnitts der Claims der Top 10 semantisch ähnlichen Patente  
+
+                    **Claims Uniqueness**  
+
+
+                    ''')),
+                                dbc.ModalFooter(
+                                    dbc.Button("Close", id="close-character-claims",
+                                               className="ml-auto")
+                                ),
+                            ],
+                            id="modal-character-claims",
+                            centered=True,
+                            size="lg",
+                            scrollable=True
+                        ),
+                    ]
+                )
+                ], className="pretty_container", style={'width': '48%', 'display': 'inline-block'}),
                 html.Div(
                 [dcc.Graph(id='KindCode-Pie-Chart', style={"height": "30vh"})], className="pretty_container", style={'width': '48%', 'display': 'inline-block'},
             )

@@ -50,12 +50,10 @@ app.layout = html.Div([
                 dbc.ModalHeader("Datensatzauswahl"),
                 dbc.ModalBody(html.Div([html.P("In diesem Projekt wurden zwei Datensätze untersucht:"),
                                         dbc.Card(dcc.Markdown('''**Personalisierte Medizin**  
-                                        Patienten unter Einbeziehung individueller Gegebenheiten über funktionale Krankheitsdiagnose hinaus behandeln z.B. individuell optimale Medikamentenkombination zusammenstellen  
-                                        Zwei Hauptbereiche  
-                                        - Stoffschutz von Arzneimitteln  
-                                        - Patentierungsmöglichkeiten in der Diagnostik'''), body=True),
+                                        Personalisierte Medizin hat als Ziel, Patienten unter Einbeziehung individueller Gegebenheiten über funktionale Krankheitsdiagnose hinaus behandeln z.B. indem individuell optimale Medikamentenkombination zusammengestellt werden. Es werden zwei Hauptbereiche unterschieden, zum einen der Stoffschutz von Arzneimitteln, zum anderen die Patentierungsmöglichkeiten in der Diagnostik.
+                                        '''), body=True),
                                         dbc.Card(dcc.Markdown('''**UV-LED**  
-                                        UV-LED beschreibt eine Technologie mit einem breitem Anwendungsspektrum: Sie findet Anwendung im medizinischen, industriellen und persönlichen Gebrauch und zeichnet sich durch eine kontinuierliche Aktivität bei Patentierungen aus. Ein heute aktueller Anwendungsfall ist die Anwendung zur Desinfektion gegen SARS-CoV-2'''), body=True),
+                                        UV-LED beschreibt eine Technologie mit einem breitem Anwendungsspektrum: Sie findet Anwendung im medizinischen, industriellen und persönlichen Gebrauch und zeichnet sich durch eine kontinuierliche Aktivität bei Patentierungen aus. Ein heute aktueller Anwendungsfall ist die Anwendung zur Desinfektion gegen SARS-CoV-2.'''), body=True),
                                         html.H6("Datensatz: "),
                                         dcc.Dropdown(
                     id='Datensatz',
@@ -158,10 +156,10 @@ app.layout = html.Div([
         dbc.Tabs(
             [
                 dbc.Tab(maininfo, label="Zusammenfassung"),
-                dbc.Tab(finance, label="Finanzdaten"),
                 dbc.Tab(
                     analytics, label="Patentanalyse"
                 ),
+                dbc.Tab(finance, label="Finanzdaten")
             ]
         )
 
@@ -270,7 +268,7 @@ def update_Details_Innovationsfrequenz(clickData, Datensatz):
         ), legend=dict(
             orientation="h",
             yanchor="bottom",
-            y=-0.15,
+            y=1,
             xanchor="right",
             x=1
         ),
@@ -357,7 +355,7 @@ def update_Details_Innovationsniveau(clickData, Datensatz):
         ), legend=dict(
             orientation="h",
             yanchor="bottom",
-            y=-0.5,
+            y=1,
             xanchor="right",
             x=1
         ),
@@ -373,7 +371,7 @@ def update_Details_Innovationsniveau(clickData, Datensatz):
         ), legend=dict(
             orientation="h",
             yanchor="bottom",
-            y=-0.5,
+            y=1,
             xanchor="right",
             x=1
         ),
@@ -423,11 +421,11 @@ def update_Details_CPC(clickData, Datensatz):
         ), legend=dict(
             orientation="h",
             yanchor="bottom",
-            y=-0.5,
+            y=1,
             xanchor="right",
             x=1
         ),
-            title='CPC-Code Shares'
+            title='Anteile technologische Neuheit'
         )
 
         return fig
@@ -441,13 +439,13 @@ def update_Details_Innovationsfähigkeit(clickData, Datensatz):
     if clickData:
         DataSelect = Dataset[Datensatz]["dfnumericnorm"][Dataset[Datensatz]["dfnumericnorm"]["company"]
                                                          == clickData]
-        InnovationsfähigkeitDF = DataSelect[["Anzahl individueller Erfinder", "Anzahl individueller Erfinder/Patente", "Intensität der Zusammenarbeit",
+        InnovationsfähigkeitDF = DataSelect[["Anzahl individueller Erfinder", "Anzahl individueller Erfinder/Patente", "Intensität der Zusammenarbeit", "TimeDelta App/Pub",
                                              "Durchschnittliche Anzahl Erfinder pro Patent (Teamgröße)", "Price Law Key Inventor Amount", "Real Key Inventor Amount", "Anzahl Kooperationen"]]
 
         fig = go.Figure()
         fig_main = go.Figure()
         fig.add_trace(go.Bar(
-            x=["individuelle Erfinder", "individuelle Erfinder/Patente", "Intensität der Zusammenarbeit",
+            x=["individuelle Erfinder", "individuelle Erfinder/Patente", "Intensität der Zusammenarbeit", "TimeDelta App/Issue",
                 "Durchschnittliche Teamgröße", "Schlüsselerfinder (Price Law)", "Schlüsselerfinder (min. 3 Patente)", "Anzahl Kooperationen"],
             y=[item for sublist in list(InnovationsfähigkeitDF.values)
                for item in sublist],
@@ -465,9 +463,9 @@ def update_Details_Innovationsfähigkeit(clickData, Datensatz):
         ))
         fig.add_trace(go.Bar(
             x=["individuelle Erfinder", "individuelle Erfinder/Patente", "Intensität der Zusammenarbeit",
-                "Durchschnittliche Teamgröße", "Schlüsselerfinder (Price Law)", "Schlüsselerfinder (min. 3 Patente)", "Anzahl Kooperationen"],
+                "Durchschnittliche Teamgröße", "Schlüsselerfinder (Price Law)", "Schlüsselerfinder (min. 3 Patente)", "Anzahl Kooperationen", "TimeDelta App/Issue"],
             y=Dataset[Datensatz]["meandata"][["Anzahl individueller Erfinder", "Anzahl individueller Erfinder/Patente", "Intensität der Zusammenarbeit",
-                                              "Durchschnittliche Anzahl Erfinder pro Patent (Teamgröße)", "Price Law Key Inventor Amount", "Real Key Inventor Amount", "Anzahl Kooperationen"]].values,
+                                              "Durchschnittliche Anzahl Erfinder pro Patent (Teamgröße)", "Price Law Key Inventor Amount", "Real Key Inventor Amount", "Anzahl Kooperationen", "TimeDelta App/Pub"]].values,
             name="Durchschnitt im Datensatz",
             marker_color='gainsboro',
         ))
@@ -506,7 +504,7 @@ def update_Details_Innovationsfähigkeit(clickData, Datensatz):
         ), legend=dict(
             orientation="h",
             yanchor="bottom",
-            y=-0.7,
+            y=1,
             xanchor="right",
             x=1
         ),
@@ -524,24 +522,23 @@ def update_Details_Innovationscharakter(clickData, Datensatz):
     if clickData:
         DataSelect = Dataset[Datensatz]["dfnumericnorm"][Dataset[Datensatz]["dfnumericnorm"]["company"]
                                                          == clickData]
-        InnovationscharakterDF = DataSelect[["Technologische Breite norm.",
+        InnovationscharakterDF = DataSelect[["Technologische Breite", "Technologische Breite rel.",
                                              "TokenNovelty - Uniqueness", "Percentage Scientific Linkage", "Scientific Linkage Amount", "Claim Complexity", "Claims Uniqueness"]]
 
         fig = go.Figure()
         fig_main = go.Figure()
         fig.add_trace(go.Bar(
-            x=["Technologische Breite norm.",
+            x=["Technologische Breite", "Technologische Breite rel.",
                "TokenNovelty - Uniqueness", "Percentage Scientific Linkage", "Scientific Linkage Amount"],
-            y=[item for sublist in list(InnovationscharakterDF[["Technologische Breite norm.",
-                                                                "TokenNovelty - Uniqueness", "Percentage Scientific Linkage", "Scientific Linkage Amount"]].values)
+            y=[item for sublist in list(InnovationscharakterDF[["Technologische Breite", "Technologische Breite rel.", "TokenNovelty - Uniqueness", "Percentage Scientific Linkage", "Scientific Linkage Amount"]].values)
                for item in sublist],
             name=clickData,
             marker_color='#21A7E9',
         ))
         fig_main.add_trace(go.Bar(
-            y=["Technologische Breite norm.",
+            y=["Technologische Breite rel.",
                 "Claim Complexity", "Claims Uniqueness"],
-            x=[item for sublist in list(InnovationscharakterDF[["Technologische Breite norm.",
+            x=[item for sublist in list(InnovationscharakterDF[["Technologische Breite rel.",
                                                                 "Claim Complexity", "Claims Uniqueness"]].values)
                for item in sublist],
             name=clickData,
@@ -550,18 +547,18 @@ def update_Details_Innovationscharakter(clickData, Datensatz):
         ))
 
         fig.add_trace(go.Bar(
-            x=["Technologische Breite norm.",
+            x=["Technologische Breite", "Technologische Breite rel.",
                "TokenNovelty - Uniqueness", "Percentage Scientific Linkage", "Scientific Linkage Amount"],
-            y=Dataset[Datensatz]["meandata"][["Technologische Breite norm.",
+            y=Dataset[Datensatz]["meandata"][["Technologische Breite", "Technologische Breite rel.",
                                               "TokenNovelty - Uniqueness", "Percentage Scientific Linkage", "Scientific Linkage Amount"]].values,
             name="Durchschnitt im Datensatz",
             marker_color='gainsboro',
         ))
         fig_main.add_trace(go.Bar(
-            y=["Technologische Breite norm.",
+            y=["Technologische Breite rel.",
                 "Claim Complexity", "Claims Uniqueness"],
             x=Dataset[Datensatz]["meandata"][[
-                "Technologische Breite norm.", "Claim Complexity", "Claims Uniqueness"]].values,
+                "Technologische Breite rel.", "Claim Complexity", "Claims Uniqueness"]].values,
             name="Durchschnitt im Datensatz",
             marker_color='gainsboro',
             orientation="h"
@@ -577,7 +574,7 @@ def update_Details_Innovationscharakter(clickData, Datensatz):
         ), legend=dict(
             orientation="h",
             yanchor="bottom",
-            y=-0.7,
+            y=1,
             xanchor="right",
             x=1
         ),
@@ -593,7 +590,7 @@ def update_Details_Innovationscharakter(clickData, Datensatz):
         ), legend=dict(
             orientation="h",
             yanchor="bottom",
-            y=-0.7,
+            y=1,
             xanchor="right",
             x=1
         ),
@@ -616,7 +613,7 @@ def update_Details_Innovationscharakter(clickData, Datensatz):
 
         fig = go.Figure()
         fig.add_trace(go.Bar(
-            x=["Claim Length Value Index", "1st Claim length", "Claim Complexity Value Index",
+            x=["1st Claim Length Value Index", "1st Claim length", "Claim Complexity Value Index",
                 "Claim Complexity", "Claim Amount Value Index", "Claim Amount", "Claims Uniqueness"],
             y=[item for sublist in list(InnovationscharakterDF.values)
                for item in sublist],
@@ -625,10 +622,10 @@ def update_Details_Innovationscharakter(clickData, Datensatz):
         ))
 
         fig.add_trace(go.Bar(
-            x=["Claim Length Value Index", "1st Claim length", "Claim Complexity Value Index",
-                "Claim Complexity", "Claim Amount Value Index", "Claim Amount", "Claims Uniqueness"],
-            y=Dataset[Datensatz]["meandata"][["Claim Length Value Index", "1st Claim length", "Claim Complexity Value Index",
-                                              "Claim Complexity", "Claim Amount Value Index", "Claim Amount", "Claims Uniqueness"]].values,
+            x=["1st Claim length",
+                "Claim Complexity", "Claim Amount", "Claims Uniqueness"],
+            y=Dataset[Datensatz]["meandata"][["1st Claim length",
+                                              "Claim Complexity", "Claim Amount", "Claims Uniqueness"]].values,
             name="Durchschnitt im Datensatz",
             marker_color='gainsboro',
         ))
@@ -692,7 +689,7 @@ def update_Details_CPC(clickData, Datensatz):
         ), legend=dict(
             orientation="h",
             yanchor="bottom",
-            y=-0.5,
+            y=1,
             xanchor="right",
             x=1
         ),
@@ -718,12 +715,51 @@ def update_table(clickData, Datensatz):
         return [{"Partner": "Keine Partner", "Patente": "Keine Kooperationen im Datensatz", "Anzahl Kooperationen": 0}]
 
 
+""" 
+MODALS ========================================================== 
+"""
+
+
 @ app.callback(
     Output("modal", "is_open"),
     [Input("open", "n_clicks"), Input("close", "n_clicks")],
     [State("modal", "is_open")],
+)
+def toggle_modal(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
 
 
+@ app.callback(
+    Output("modal-character-claims", "is_open"),
+    [Input("open-character-claims", "n_clicks"),
+     Input("close-character-claims", "n_clicks")],
+    [State("modal-character-claims", "is_open")],
+)
+def toggle_modal(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
+
+
+@ app.callback(
+    Output("modal-character-niveau", "is_open"),
+    [Input("open-character-niveau", "n_clicks"),
+     Input("close-character-niveau", "n_clicks")],
+    [State("modal-character-niveau", "is_open")],
+)
+def toggle_modal(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
+
+
+@ app.callback(
+    Output("modal-character-fhigkeit", "is_open"),
+    [Input("open-character-fhigkeit", "n_clicks"),
+     Input("close-character-fhigkeit", "n_clicks")],
+    [State("modal-character-fhigkeit", "is_open")],
 )
 def toggle_modal(n1, n2, is_open):
     if n1 or n2:
@@ -737,7 +773,7 @@ def display_hover_data(clickData, Datensatz):
     if clickData:
         keyinventors = Dataset[Datensatz]["qualitativ"].loc[clickData]["Key Inventor Names"]
         if type(keyinventors) == list:
-            return "Schlüsselerfinder: " + " ".join(keyinventors)
+            return "Schlüsselerfinder: " + "; ".join(keyinventors)
         else:
             return "Nicht genügend Daten über Erfinder vorhanden."
 
@@ -754,13 +790,13 @@ def display_hover_data(clickData, Datensatz):
 def update_infotable(clickData, Datensatz):
     if clickData:
         if clickData in Dataset[Datensatz]["Finanzdaten"].index:
-            data = Dataset[Datensatz]["Finanzdaten"][["BvD ID Nummer", "Stand", "Globale KM - Name", "Gesellschafter - NACE,Textbeschreibung"]].loc[[
+            data = Dataset[Datensatz]["Finanzdaten"][["BvD ID Nummer", "Stand", "Globale KM - Name", "Anzahl Mitarbeiter", "Eigenkapitalquote (%)"]].loc[[
                 clickData]]
             return data.to_dict('records')
         else:
-            return [{"BvD ID Nummer": "Keine Daten vorhanden", "Letztes verf. Jahr": "Keine Daten vorhanden", "Globale KM - Name": "Keine Daten vorhanden", "Gesellschafter - NACE,Textbeschreibung": "Keine Daten vorhanden"}]
+            return [{"BvD ID Nummer": "Keine Daten vorhanden", "Letztes verf. Jahr": "Keine Daten vorhanden", "Globale KM - Name": "Keine Daten vorhanden", "Anzahl Mitarbeiter": "Keine Daten vorhanden", "Eigenkapitalquote (%)": "Keine Daten vorhanden"}]
     else:
-        return [{"BvD ID Nummer": "Keine Daten vorhanden", "Letztes verf. Jahr": "Keine Daten vorhanden", "Globale KM - Name": "Keine Daten vorhanden", "Gesellschafter - NACE,Textbeschreibung": "Keine Daten vorhanden"}]
+        return [{"BvD ID Nummer": "Keine Daten vorhanden", "Letztes verf. Jahr": "Keine Daten vorhanden", "Globale KM - Name": "Keine Daten vorhanden", "Anzahl Mitarbeiter": "Keine Daten vorhanden",  "Eigenkapitalquote (%)": "Keine Daten vorhanden"}]
 
 
 @ app.callback(Output('finance-table-eigenkapital', 'data'),
@@ -768,13 +804,13 @@ def update_infotable(clickData, Datensatz):
 def update_infotable(clickData, Datensatz):
     if clickData:
         if clickData in Dataset[Datensatz]["Finanzdaten"].index:
-            data = Dataset[Datensatz]["Finanzdaten"][["Eigenkapital tsd. EUR", "Fremd- zu Eigenkapital (%)", "Eigenkapitalquote (%)", "ROE vor Steuern (%)", "ROCE vor Steuern (%)", "Langfristige Verbindlichkeiten tsd. EUR", "EBITDA tsd. EUR",  "Cashflow tsd. Euro"]].loc[[
+            data = Dataset[Datensatz]["Finanzdaten"][["Fremd- zu Eigenkapital (%)", "Eigenkapitalquote (%)", "ROA vor Steuern (%)", "ROE vor Steuern (%)", "ROCE vor Steuern (%)", "ROS nach Steuern(%)",  "EBITDA tsd. EUR"]].loc[[
                 clickData]]
             return data.to_dict('records')
         else:
-            return [{"BvD ID Nummer": "Keine Daten vorhanden", "Letztes verf. Jahr": "Keine Daten vorhanden", "Globale KM - Name": "Keine Daten vorhanden", "Gesellschafter - NACE,Textbeschreibung": "Keine Daten vorhanden"}]
+            return [{"Fremd- zu Eigenkapital (%)": "Keine Daten vorhanden", "Eigenkapitalquote (%)": "Keine Daten vorhanden", "ROA vor Steuern (%)": "Keine Daten vorhanden", "ROE vor Steuern (%)": "Keine Daten vorhanden", "ROCE vor Steuern (%)": "Keine Daten vorhanden", "ROS nach Steuern(%)": "Keine Daten vorhanden", "EBITDA tsd. EUR": "Keine Daten vorhanden"}]
     else:
-        return [{"BvD ID Nummer": "Keine Daten vorhanden", "Letztes verf. Jahr": "Keine Daten vorhanden", "Globale KM - Name": "Keine Daten vorhanden", "Gesellschafter - NACE,Textbeschreibung": "Keine Daten vorhanden"}]
+        return [{"Fremd- zu Eigenkapital (%)": "Keine Daten vorhanden", "Eigenkapitalquote (%)": "Keine Daten vorhanden", "ROA vor Steuern (%)": "Keine Daten vorhanden", "ROE vor Steuern (%)": "Keine Daten vorhanden", "ROCE vor Steuern (%)": "Keine Daten vorhanden", "ROS nach Steuern(%)": "Keine Daten vorhanden", "EBITDA tsd. EUR": "Keine Daten vorhanden"}]
 
 
 @ app.callback(Output('finance-table-overview', 'data'),
@@ -782,7 +818,7 @@ def update_infotable(clickData, Datensatz):
 def update_infotable(clickData, Datensatz):
     if clickData:
         if clickData in Dataset[Datensatz]["Finanzdaten"].index:
-            data = Dataset[Datensatz]["Finanzdaten"][["Stand", "Anzahl Mitarbeiter", "Betriebsertrag/Jahr tsd. Euro", "Gewinn/Verlust vor Steuern tsd. EUR", "Gewinn pro Mitarbeiter tsd. EUR", "F&E Ausgaben tsd. EUR"]].loc[[
+            data = Dataset[Datensatz]["Finanzdaten"][["Stand", "Anzahl Mitarbeiter", "Umsatz/Jahr tsd. Euro", "Gewinn/Verlust vor Steuern tsd. EUR", "Gewinn pro Mitarbeiter tsd. EUR", "F&E Ausgaben tsd. EUR"]].loc[[
                 clickData]]
             return data.to_dict('records')
         else:
